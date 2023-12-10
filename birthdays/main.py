@@ -38,14 +38,14 @@ def postTweet(text):
                 }
             )
         except:
-            logging.error("BIRTHDAY: Network error!")
+            logging.error("  BIRTHDAY: Network error!")
             exit()
 
         if response.status_code == 201:
             success = True
-            logging.info("BIRTHDAY: Sucessfully posted tweet!")
+            logging.info("  BIRTHDAY: Sucessfully posted tweet!")
         else:
-            logging.info(f"BIRTHDAY: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
+            logging.info(f"  BIRTHDAY: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
             time.sleep(60 * 5)
 
 while True:
@@ -57,7 +57,7 @@ while True:
         try:
             f = json.loads(requests.get(f"https://{SECRET_URL}/birthdays.json").text)
         except:
-            logging.error("BIRTHDAY: Network error!")
+            logging.error("  BIRTHDAY: Network error!")
             exit()
         birthdays = []
 

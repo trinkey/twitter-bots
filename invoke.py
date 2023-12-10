@@ -19,7 +19,7 @@ def thread1():
     try:
         while True:
             time.sleep(1)
-            logging.info("BIRTHDAY: [Re]starting thread...")
+            logging.info("  BIRTHDAY: [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/birthdays/main.py"])
     except KeyboardInterrupt:
         exit()
@@ -28,7 +28,7 @@ def thread2():
     try:
         while True:
             time.sleep(1)
-            logging.info("   WORDS: [Re]starting thread...")
+            logging.info("     WORDS: [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/sentencebot/main.py"])
     except KeyboardInterrupt:
         exit()
@@ -37,17 +37,28 @@ def thread3():
     try:
         while True:
             time.sleep(1)
-            logging.info("   EMOJI: [Re]starting thread...")
+            logging.info("     EMOJI: [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/emojibot/main.py"])
+    except KeyboardInterrupt:
+        exit()
+
+def thread4():
+    try:
+        while True:
+            time.sleep(1)
+            logging.info("DICTIONARY: [Re]starting thread...")
+            subprocess.run(["python3", f"{abs_path}/dictionarybot/main.py"])
     except KeyboardInterrupt:
         exit()
 
 th1 = threading.Thread(target=thread1)
 th2 = threading.Thread(target=thread2)
 th3 = threading.Thread(target=thread3)
+th4 = threading.Thread(target=thread4)
 
 time.sleep(initial)
 th2.start()
+th4.start()
 time.sleep(secondary)
 th1.start()
 th3.start()
@@ -55,3 +66,4 @@ th3.start()
 th1.join()
 th2.join()
 th3.join()
+th4.join()

@@ -35,14 +35,14 @@ def postTweet(text):
                 }
             )
         except:
-            logging.error("   EMOJI: Network error!")
+            logging.error("     EMOJI: Network error!")
             exit()
 
         if response.status_code == 201:
             success = True
-            logging.info("   EMOJI: Sucessfully posted tweet!")
+            logging.info("     EMOJI: Sucessfully posted tweet!")
         else:
-            logging.info(f"   EMOJI: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
+            logging.info(f"     EMOJI: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
             time.sleep(60 * 5)
 
 while True:

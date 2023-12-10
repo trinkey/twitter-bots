@@ -21,14 +21,14 @@ def postTweet(text):
                 headers={ "Content-Type": "application/json" }
             )
         except:
-            logging.error("   WORDS: Network error!")
+            logging.error("     WORDS: Network error!")
             exit()
 
         if response.status_code == 201:
             success = True
-            logging.info("   WORDS: Sucessfully posted tweet! Waiting 1h...")
+            logging.info("     WORDS: Sucessfully posted tweet! Waiting 1h...")
         else:
-            logging.info(f"   WORDS: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
+            logging.info(f"     WORDS: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
             time.sleep(60 * 5)
 
 while True:
