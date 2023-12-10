@@ -6,7 +6,8 @@ import time
 from requests_oauthlib import OAuth1
 from oauth_tokens import *
 
-words = open("words.txt", "r").read().split("\n")
+abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
+words = open(f"{abs_path}/words.txt", "r").read().split("\n")
 logging.basicConfig(format="%(asctime)s: %(message)s", datefmt="%H:%M:%S", level=logging.INFO)
 
 def postTweet(text):

@@ -7,13 +7,14 @@ import time
 from requests_oauthlib import OAuth1
 from oauth_tokens import *
 
+abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
 logging.basicConfig(
     format="%(asctime)s: %(message)s",
     level=logging.INFO,
     datefmt="%H:%M:%S"
 )
 
-last = int(open("info", "r").read())
+last = int(open(f"{abs_path}/info", "r").read())
 monthMap = {
     "01": "Jan.", "02": "Feb.", "03": "Mar.",
     "04": "Apr.", "05": "May",  "06": "Jun.",
@@ -69,7 +70,7 @@ while True:
         else:
             postTweet(f"There are no birthdays for today ({monthMap[now[1]]} {now[2]}) in my database!\nIf today is your birthday, or you want to be added to the pool of birthdays, you can dm this account or @trinkey_2!")
 
-        open("info", "w").write(str(last))
+        open(f"{abs_path}/info", "w").write(str(last))
         time.sleep(60 * 60 * 23 + 60 * 45) # 23h 45m
 
     else:

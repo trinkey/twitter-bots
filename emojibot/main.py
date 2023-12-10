@@ -7,16 +7,17 @@ import time
 from requests_oauthlib import OAuth1
 from oauth_tokens import *
 
+abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
 logging.basicConfig(
     format="%(asctime)s: %(message)s",
     level=logging.INFO,
     datefmt="%H:%M:%S"
 )
 
-emojiList = json.loads(open("emoji.json", "r").read())
+emojiList = json.loads(open(f"{abs_path}/emoji.json", "r").read())
 
-last = int(open("info", "r").read().split("\n")[0])
-index = int(open("info", "r").read().split("\n")[1])
+last = int(open(f"{abs_path}/info", "r").read().split("\n")[0])
+index = int(open(f"{abs_path}/info", "r").read().split("\n")[1])
 
 def postTweet(text):
     success = False
@@ -53,7 +54,7 @@ while True:
         postTweet("Emoji for Today: " + emojiList[index]["emoji"] + "\nEmoji name: " + emojiList[index]["name"].title().replace("\u229b ", ""))
 
         index += 1
-        open("info", "w").write(str(last) + "\n" + str(index))
+        open(f"{abs_path}/info", "w").write(str(last) + "\n" + str(index))
         time.sleep(60 * 60 * 23 + 60 * 45) # 23h 45m
 
     else:
