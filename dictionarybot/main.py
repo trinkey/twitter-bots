@@ -7,7 +7,7 @@ from requests_oauthlib import OAuth1
 from oauth_tokens import *
 
 abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
-words = json.loads(open(f"{abs_path}/dictionary_shortened.json", "r").read())
+words = json.loads(open(f"{abs_path}/dictionary.json", "r").read())
 index = int(open(f"{abs_path}/info", "r").read())
 logging.basicConfig(format="%(asctime)s: %(message)s", datefmt="%H:%M:%S", level=logging.INFO)
 

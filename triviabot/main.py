@@ -45,4 +45,4 @@ while True:
 
     postTweet(output)
 
-    time.sleep(60 * 60 - 10)
+    time.sleep(60 * 60 - 6)
