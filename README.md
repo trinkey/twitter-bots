@@ -17,5 +17,9 @@ idea, you can either make an issue or message me on discord (@trinkey_)
 You can't use my code exactly how it is. You must change at least some part of the code in a substantial way, for example
 adding a feature, but feel free to use this code as a template or inspiration!
 
+### What is the limit for how many tweets my bot can post?
+There is a limit of 50 tweets per day total for all bots that are managed under a certain account. If you had two hourly bots
+that were both managed under the same account with the same API token, then that would be 24*2/50 or 48/50 per day.
+
 ### I have another question, where should I ask it?
 To ask me another question, you can either message me on twitter ([@trinkey_2](https://twitter.com/trinkey_2)) or discord (trinkey_)
