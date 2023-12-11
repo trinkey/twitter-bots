@@ -7,12 +7,9 @@ import time
 from requests_oauthlib import OAuth1
 from oauth_tokens import *
 
+prefix = "     EMOJI - "
 abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
-logging.basicConfig(
-    format="%(asctime)s: %(message)s",
-    level=logging.INFO,
-    datefmt="%H:%M:%S"
-)
+logging.basicConfig(format=f"%(asctime)s: {prefix} %(message)s", datefmt="%H:%M:%S", level=logging.INFO)
 
 emojiList = json.loads(open(f"{abs_path}/emoji.json", "r").read())
 
@@ -35,14 +32,20 @@ def postTweet(text):
                 }
             )
         except:
-            logging.error("     EMOJI: Network error!")
+            logging.error("Network error!")
             exit()
 
         if response.status_code == 201:
             success = True
-            logging.info("     EMOJI: Sucessfully posted tweet!")
+            logging.info("Sucessfully posted tweet!")
+        elif response.status_code == 429:
+            logging.info("Rate limited! Trying again in 1h...")
+            time.sleep(60 * 60)
+        elif response.status_code == 403:
+            success = True
+            logging.info("Duplicate tweet! (probably)")
         else:
-            logging.info(f"     EMOJI: Error posting tweet, status code {response.status_code}. Retrying in 30 seconds...")
+            logging.info(f"Error posting tweet, status code {response.status_code}. Retrying in 30 seconds...")
             time.sleep(30)
 
 while True:
