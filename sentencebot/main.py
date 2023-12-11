@@ -28,8 +28,8 @@ def postTweet(text):
             success = True
             logging.info("     WORDS: Sucessfully posted tweet! Waiting 1h...")
         else:
-            logging.info(f"     WORDS: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
-            time.sleep(60 * 5)
+            logging.info(f"     WORDS: Error posting tweet, status code {response.status_code}. Retrying in 30 seconds...")
+            time.sleep(30)
 
 while True:
     output = []

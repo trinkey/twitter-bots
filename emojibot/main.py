@@ -42,8 +42,8 @@ def postTweet(text):
             success = True
             logging.info("     EMOJI: Sucessfully posted tweet!")
         else:
-            logging.info(f"     EMOJI: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
-            time.sleep(60 * 5)
+            logging.info(f"     EMOJI: Error posting tweet, status code {response.status_code}. Retrying in 30 seconds...")
+            time.sleep(30)
 
 while True:
     now = str(datetime.datetime.now()).split(" ")[0].split("-")

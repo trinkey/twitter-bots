@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 
 print("To stop, press Ctrl+C any time.")
-initial = int(input("How many minutes to wait to start sentence bot?\n>>> ")) * 60
+initial = int(input("How many minutes to wait to start sentence/dictionary/trivia bot?\n>>> ")) * 60
 secondary = int(input("How many minutes to wait to start birthday/emoji bot after sentence bot??\n>>> ")) * 60
 
 def thread1():
@@ -51,14 +51,25 @@ def thread4():
     except KeyboardInterrupt:
         exit()
 
+def thread5():
+    try:
+        while True:
+            time.sleep(1)
+            logging.info("    TRIVIA: [Re]starting thread...")
+            subprocess.run(["python3", f"{abs_path}/triviabot/main.py"])
+    except KeyboardInterrupt:
+        exit()
+
 th1 = threading.Thread(target=thread1)
 th2 = threading.Thread(target=thread2)
 th3 = threading.Thread(target=thread3)
 th4 = threading.Thread(target=thread4)
+th5 = threading.Thread(target=thread5)
 
 time.sleep(initial)
 th2.start()
 th4.start()
+th5.start()
 time.sleep(secondary)
 th1.start()
 th3.start()
@@ -67,3 +78,4 @@ th1.join()
 th2.join()
 th3.join()
 th4.join()
+th5.join()

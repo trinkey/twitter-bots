@@ -29,13 +29,15 @@ def postTweet(text):
             success = True
             logging.info("DICTIONARY: Sucessfully posted tweet! Waiting 1h...")
         else:
-            logging.info(f"DICTIONARY: Error posting tweet, status code {response.status_code}. Retrying in 5 minutes...")
-            time.sleep(60 * 5)
+            logging.info(f"DICTIONARY: Error posting tweet, status code {response.status_code}. Retrying in 30 seconds...")
+            time.sleep(30)
 
 while True:
-    postTweet(f"{words[index]['word']}: {words[index]['definition']}")
+    postTweet(f"{words[index]['word'].title()}: {words[index]['definition']}")
 
     index += 1
-    open(f"{abs_path}/info", "w").write(str(index))
+    f = open(f"{abs_path}/info", "w")
+    f.write(str(index))
+    f.close()
 
     time.sleep(60 * 60)
