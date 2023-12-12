@@ -42,8 +42,10 @@ def postTweet(text):
 while True:
     valid = False
     output = ""
+    count = 0
     while not valid:
-        time.sleep(5)
+        time.sleep(5) # Prevent ratelimit / 1 request/5s/ip
+        count += 1
         x = requests.get(f"https://opentdb.com/api.php?amount=1&encode=base64&token={api_token}").json()["results"][0]
         q = [bytes.decode(base64.b64decode(i)) for i in x['incorrect_answers'] + [x['correct_answer']]]
         random.shuffle(q)
@@ -52,4 +54,4 @@ while True:
 
     postTweet(output)
 
-    time.sleep(60 * 60 - 6)
+    time.sleep(60 * 60 - 5 * count)
