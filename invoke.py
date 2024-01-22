@@ -69,6 +69,15 @@ def thread6():
     except KeyboardInterrupt:
         exit()
 
+def thread7():
+    try:
+        while True:
+            time.sleep(5)
+            logging.info("  COUNTING - [Re]starting thread...")
+            subprocess.run(["python3", f"{abs_path}/counting/main.py"])
+    except KeyboardInterrupt:
+        exit()
+
 # 1 - birthday
 # 2 - sentences
 # 3 - emoji
@@ -81,10 +90,12 @@ emojibot = threading.Thread(target=thread3)
 dictionary = threading.Thread(target=thread4)
 triviabot = threading.Thread(target=thread5)
 flagbot = threading.Thread(target=thread6)
+counting = threading.Thread(target=thread7)
 
 time.sleep(initial)
 triviabot.start()
 time.sleep(5)
+counting.start()
 sentences.start()
 flagbot.start()
 dictionary.start()
