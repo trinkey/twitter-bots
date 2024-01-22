@@ -11,7 +11,6 @@ prefix = "  BIRTHDAY - "
 abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
 logging.basicConfig(format=f"%(asctime)s: {prefix} %(message)s", datefmt="%H:%M:%S", level=logging.INFO)
 
-last = int(open(f"{abs_path}/info", "r").read())
 monthMap = {
     "01": "Jan.", "02": "Feb.", "03": "Mar.",
     "04": "Apr.", "05": "May",  "06": "Jun.",
@@ -69,9 +68,9 @@ while True:
                 birthdays.append(i["name"])
 
         if birthdays:
-            postTweet(f"Today is {monthMap[now[1]]} {now[2]}, make sure to wish a happy birthday to {(', '.join(birthdays[:-1]) + (',' if len(birthdays) >= 3 else '') + ' and ' if len(birthdays) >= 2 else '') + birthdays[-1]}!!!")
+            postTweet(f"Today is {monthMap[now[1]]} {now[2]}, {now[0]}, make sure to wish a happy birthday to {(', '.join(birthdays[:-1]) + (',' if len(birthdays) >= 3 else '') + ' and ' if len(birthdays) >= 2 else '') + birthdays[-1]}!!!")
         else:
-            postTweet(f"There are no birthdays for today ({monthMap[now[1]]} {now[2]}) in my database!\nIf today is your birthday, or you want to be added to the pool of birthdays, you can dm this account or @trinkey_2!")
+            postTweet(f"There are no birthdays for today ({monthMap[now[1]]} {now[2]}, {now[0]}) in my database!\nIf today is your birthday, or you want to be added to the pool of birthdays, submit it at https://birthdays.pythonanywhere.com!")
 
         open(f"{abs_path}/info", "w").write(str(last))
         time.sleep(60 * 60 * 23 + 60 * 45) # 23h 45m

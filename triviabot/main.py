@@ -46,10 +46,14 @@ while True:
     while not valid:
         time.sleep(5) # Prevent ratelimit / 1 request/5s/ip
         count += 1
-        x = requests.get(f"https://opentdb.com/api.php?amount=1&encode=base64&token={api_token}").json()["results"][0]
+        try:
+            x = requests.get(f"https://opentdb.com/api.php?amount=1&encode=base64").json()["results"][0]
+        except:
+            logging.error("Network error!")
+            exit()
         q = [bytes.decode(base64.b64decode(i)) for i in x['incorrect_answers'] + [x['correct_answer']]]
         random.shuffle(q)
-        output = html.unescape(f"Category: {bytes.decode(base64.b64decode(x['category'])).title()}\nDifficulty: {bytes.decode(base64.b64decode(x['difficulty'])).title()}\n\nQuestion: {'T/F - ' if bytes.decode(base64.b64decode(x['type'])) == 'boolean' else ''}{bytes.decode(base64.b64decode(x['question']))}\n{'Choices: ' + ', '.join(q) if bytes.decode(base64.b64decode(x['type'])) == 'multiple' else ''}\n\nAnswer: {bytes.decode(base64.b64decode(x['correct_answer']))}")
+        output = html.unescape(f"Category: {bytes.decode(base64.b64decode(x['category'])).title()}\nDifficulty: {bytes.decode(base64.b64decode(x['difficulty'])).title()}\n\nQuestion: {'T/F - ' if bytes.decode(base64.b64decode(x['type'])) == 'boolean' else ''}{bytes.decode(base64.b64decode(x['question']))}\n{'Choices: ' + ', '.join(q) if bytes.decode(base64.b64decode(x['type'])) == 'multiple' else ''}\n\nAnswer (b64 encoded): {x['correct_answer']}")
         valid = len(output) <= 280
 
     postTweet(output)

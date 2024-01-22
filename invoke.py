@@ -12,13 +12,13 @@ logging.basicConfig(
 )
 
 print("To stop, press Ctrl+C any time.")
-initial = int(input("How many minutes to wait to start sentence/dictionary/trivia bot?\n>>> ")) * 60
+initial = int(input("How many minutes to wait to start sentence/dictionary/trivia/flag bot?\n>>> ")) * 60
 secondary = int(input("How many minutes to wait to start birthday/emoji bot after sentence bot??\n>>> ")) * 60
 
 def thread1():
     try:
         while True:
-            time.sleep(1)
+            time.sleep(5)
             logging.info("  BIRTHDAY - [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/birthdays/main.py"])
     except KeyboardInterrupt:
@@ -27,7 +27,7 @@ def thread1():
 def thread2():
     try:
         while True:
-            time.sleep(1)
+            time.sleep(5)
             logging.info("     WORDS - [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/sentencebot/main.py"])
     except KeyboardInterrupt:
@@ -36,7 +36,7 @@ def thread2():
 def thread3():
     try:
         while True:
-            time.sleep(1)
+            time.sleep(5)
             logging.info("     EMOJI - [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/emojibot/main.py"])
     except KeyboardInterrupt:
@@ -45,7 +45,7 @@ def thread3():
 def thread4():
     try:
         while True:
-            time.sleep(1)
+            time.sleep(5)
             logging.info("DICTIONARY - [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/dictionarybot/main.py"])
     except KeyboardInterrupt:
@@ -54,9 +54,18 @@ def thread4():
 def thread5():
     try:
         while True:
-            time.sleep(1)
+            time.sleep(5)
             logging.info("    TRIVIA - [Re]starting thread...")
             subprocess.run(["python3", f"{abs_path}/triviabot/main.py"])
+    except KeyboardInterrupt:
+        exit()
+
+def thread6():
+    try:
+        while True:
+            time.sleep(5)
+            logging.info("      FLAG - [Re]starting thread...")
+            subprocess.run(["python3", f"{abs_path}/flagbot/main.py"])
     except KeyboardInterrupt:
         exit()
 
@@ -71,11 +80,13 @@ sentences = threading.Thread(target=thread2)
 emojibot = threading.Thread(target=thread3)
 dictionary = threading.Thread(target=thread4)
 triviabot = threading.Thread(target=thread5)
+flagbot = threading.Thread(target=thread6)
 
-time.sleep(initial - 5)
+time.sleep(initial)
 triviabot.start()
 time.sleep(5)
 sentences.start()
+flagbot.start()
 dictionary.start()
 time.sleep(secondary)
 birthday.start()
