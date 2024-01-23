@@ -1,5 +1,6 @@
 __pycache__/
 oauth_tokens.py
+save/
 info
-info_emoji
 twitter-keys.yaml
+.vscode/
