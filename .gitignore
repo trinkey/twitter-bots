@@ -2,5 +2,5 @@ __pycache__/
 oauth_tokens.py
 save/
 info
-twitter-keys.yaml
+api-keys.yaml
 .vscode/

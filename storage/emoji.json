@@ -242,7 +242,7 @@
   {
     "emoji": "\ud83e\uddce\u200d\u27a1\ufe0f",
     "unicode": "U+1F9CE U+200D U+27A1 U+FE0F",
-    "name": "\u229b person kneeling facing right"
+    "name": "person kneeling facing right"
   },
   {
     "emoji": "\ud83e\udea7",
@@ -482,7 +482,7 @@
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddd2\u200d\ud83e\uddd2",
     "unicode": "U+1F9D1 U+200D U+1F9D2 U+200D U+1F9D2",
-    "name": "\u229b family: adult, child, child"
+    "name": "family: adult, child, child"
   },
   {
     "emoji": "\ud83d\udc55",
@@ -782,7 +782,7 @@
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddaf\u200d\u27a1\ufe0f",
     "unicode": "U+1F9D1 U+200D U+1F9AF U+200D U+27A1 U+FE0F",
-    "name": "\u229b person with white cane facing right"
+    "name": "person with white cane facing right"
   },
   {
     "emoji": "\ud83e\udd33",
@@ -1052,7 +1052,7 @@
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddbd\u200d\u27a1\ufe0f",
     "unicode": "U+1F9D1 U+200D U+1F9BD U+200D U+27A1 U+FE0F",
-    "name": "\u229b person in manual wheelchair facing right"
+    "name": "person in manual wheelchair facing right"
   },
   {
     "emoji": "\ud83d\udd34",
@@ -1582,7 +1582,7 @@
   {
     "emoji": "\ud83d\udeb6\u200d\u2640\ufe0f\u200d\u27a1\ufe0f",
     "unicode": "U+1F6B6 U+200D U+2640 U+FE0F U+200D U+27A1 U+FE0F",
-    "name": "\u229b woman walking facing right"
+    "name": "woman walking facing right"
   },
   {
     "emoji": "\ud83d\udebe",
@@ -1687,7 +1687,7 @@
   {
     "emoji": "\ud83d\udeb6\u200d\u2642\ufe0f\u200d\u27a1\ufe0f",
     "unicode": "U+1F6B6 U+200D U+2642 U+FE0F U+200D U+27A1 U+FE0F",
-    "name": "\u229b man walking facing right"
+    "name": "man walking facing right"
   },
   {
     "emoji": "\ud83d\ude4a",
@@ -1957,7 +1957,7 @@
   {
     "emoji": "\ud83c\udfc3\u200d\u2640\ufe0f\u200d\u27a1\ufe0f",
     "unicode": "U+1F3C3 U+200D U+2640 U+FE0F U+200D U+27A1 U+FE0F",
-    "name": "\u229b woman running facing right"
+    "name": "woman running facing right"
   },
   {
     "emoji": "\ud83d\udcad",
@@ -2292,7 +2292,7 @@
   {
     "emoji": "\ud83d\ude42\u200d\u2194\ufe0f",
     "unicode": "U+1F642 U+200D U+2194 U+FE0F",
-    "name": "\u229b head shaking horizontally"
+    "name": "head shaking horizontally"
   },
   {
     "emoji": "\ud83d\udefb",
@@ -2422,7 +2422,7 @@
   {
     "emoji": "\ud83e\uddce\u200d\u2642\ufe0f\u200d\u27a1\ufe0f",
     "unicode": "U+1F9CE U+200D U+2642 U+FE0F U+200D U+27A1 U+FE0F",
-    "name": "\u229b man kneeling facing right"
+    "name": "man kneeling facing right"
   },
   {
     "emoji": "\ud83d\ude9f",
@@ -3307,7 +3307,7 @@
   {
     "emoji": "\ud83d\udc68\u200d\ud83e\uddbd\u200d\u27a1\ufe0f",
     "unicode": "U+1F468 U+200D U+1F9BD U+200D U+27A1 U+FE0F",
-    "name": "\u229b man in manual wheelchair facing right"
+    "name": "man in manual wheelchair facing right"
   },
   {
     "emoji": "\ud83c\uddf1\ud83c\udde6",
@@ -3442,7 +3442,7 @@
   {
     "emoji": "\ud83d\udc68\u200d\ud83e\uddbc\u200d\u27a1\ufe0f",
     "unicode": "U+1F468 U+200D U+1F9BC U+200D U+27A1 U+FE0F",
-    "name": "\u229b man in motorized wheelchair facing right"
+    "name": "man in motorized wheelchair facing right"
   },
   {
     "emoji": "\ud83c\udde6\ud83c\udde9",
@@ -3462,7 +3462,7 @@
   {
     "emoji": "\ud83d\ude42\u200d\u2195\ufe0f",
     "unicode": "U+1F642 U+200D U+2195 U+FE0F",
-    "name": "\u229b head shaking vertically"
+    "name": "head shaking vertically"
   },
   {
     "emoji": "\ud83c\uddf5\ud83c\uddea",
@@ -4107,7 +4107,7 @@
   {
     "emoji": "\ud83c\udf4b\u200d\ud83d\udfe9",
     "unicode": "U+1F34B U+200D U+1F7E9",
-    "name": "\u229b lime"
+    "name": "lime"
   },
   {
     "emoji": "\ud83c\udfd7",
@@ -4437,7 +4437,7 @@
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddd1\u200d\ud83e\uddd2\u200d\ud83e\uddd2",
     "unicode": "U+1F9D1 U+200D U+1F9D1 U+200D U+1F9D2 U+200D U+1F9D2",
-    "name": "\u229b family: adult, adult, child, child"
+    "name": "family: adult, adult, child, child"
   },
   {
     "emoji": "\ud83d\udec3",
@@ -4742,7 +4742,7 @@
   {
     "emoji": "\ud83d\udc69\u200d\ud83e\uddaf\u200d\u27a1\ufe0f",
     "unicode": "U+1F469 U+200D U+1F9AF U+200D U+27A1 U+FE0F",
-    "name": "\u229b woman with white cane facing right"
+    "name": "woman with white cane facing right"
   },
   {
     "emoji": "\u231b",
@@ -5452,7 +5452,7 @@
   {
     "emoji": "\ud83e\uddce\u200d\u2640\ufe0f\u200d\u27a1\ufe0f",
     "unicode": "U+1F9CE U+200D U+2640 U+FE0F U+200D U+27A1 U+FE0F",
-    "name": "\u229b woman kneeling facing right"
+    "name": "woman kneeling facing right"
   },
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddb1",
@@ -5582,7 +5582,7 @@
   {
     "emoji": "\u26d3\ufe0f\u200d\ud83d\udca5",
     "unicode": "U+26D3 U+FE0F U+200D U+1F4A5",
-    "name": "\u229b broken chain"
+    "name": "broken chain"
   },
   {
     "emoji": "\u2b55",
@@ -6142,7 +6142,7 @@
   {
     "emoji": "\ud83d\udc68\u200d\ud83e\uddaf\u200d\u27a1\ufe0f",
     "unicode": "U+1F468 U+200D U+1F9AF U+200D U+27A1 U+FE0F",
-    "name": "\u229b man with white cane facing right"
+    "name": "man with white cane facing right"
   },
   {
     "emoji": "\ud83d\udeb4\u200d\u2642\ufe0f",
@@ -6482,7 +6482,7 @@
   {
     "emoji": "\ud83c\udfc3\u200d\u27a1\ufe0f",
     "unicode": "U+1F3C3 U+200D U+27A1 U+FE0F",
-    "name": "\u229b person running facing right"
+    "name": "person running facing right"
   },
   {
     "emoji": "\u262a",
@@ -6887,7 +6887,7 @@
   {
     "emoji": "\ud83d\udc26\u200d\ud83d\udd25",
     "unicode": "U+1F426 U+200D U+1F525",
-    "name": "\u229b phoenix"
+    "name": "phoenix"
   },
   {
     "emoji": "\ud83d\udc3d",
@@ -7107,7 +7107,7 @@
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddd1\u200d\ud83e\uddd2",
     "unicode": "U+1F9D1 U+200D U+1F9D1 U+200D U+1F9D2",
-    "name": "\u229b family: adult, adult, child"
+    "name": "family: adult, adult, child"
   },
   {
     "emoji": "\ud83c\udfe7",
@@ -7172,7 +7172,7 @@
   {
     "emoji": "\ud83c\udfc3\u200d\u2642\ufe0f\u200d\u27a1\ufe0f",
     "unicode": "U+1F3C3 U+200D U+2642 U+FE0F U+200D U+27A1 U+FE0F",
-    "name": "\u229b man running facing right"
+    "name": "man running facing right"
   },
   {
     "emoji": "\ud83c\udfd3",
@@ -7777,7 +7777,7 @@
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddd2",
     "unicode": "U+1F9D1 U+200D U+1F9D2",
-    "name": "\u229b family: adult, child"
+    "name": "family: adult, child"
   },
   {
     "emoji": "\ud83d\udc69\u200d\ud83e\uddb0",
@@ -8177,7 +8177,7 @@
   {
     "emoji": "\ud83d\udc69\u200d\ud83e\uddbc\u200d\u27a1\ufe0f",
     "unicode": "U+1F469 U+200D U+1F9BC U+200D U+27A1 U+FE0F",
-    "name": "\u229b woman in motorized wheelchair facing right"
+    "name": "woman in motorized wheelchair facing right"
   },
   {
     "emoji": "\ud83d\ude4e\u200d\u2642\ufe0f",
@@ -8532,12 +8532,12 @@
   {
     "emoji": "\ud83d\udeb6\u200d\u27a1\ufe0f",
     "unicode": "U+1F6B6 U+200D U+27A1 U+FE0F",
-    "name": "\u229b person walking facing right"
+    "name": "person walking facing right"
   },
   {
     "emoji": "\ud83d\udc69\u200d\ud83e\uddbd\u200d\u27a1\ufe0f",
     "unicode": "U+1F469 U+200D U+1F9BD U+200D U+27A1 U+FE0F",
-    "name": "\u229b woman in manual wheelchair facing right"
+    "name": "woman in manual wheelchair facing right"
   },
   {
     "emoji": "\u262f",
@@ -9357,7 +9357,7 @@
   {
     "emoji": "\ud83e\uddd1\u200d\ud83e\uddbc\u200d\u27a1\ufe0f",
     "unicode": "U+1F9D1 U+200D U+1F9BC U+200D U+27A1 U+FE0F",
-    "name": "\u229b person in motorized wheelchair facing right"
+    "name": "person in motorized wheelchair facing right"
   },
   {
     "emoji": "\ud83d\udc59",
@@ -9447,7 +9447,7 @@
   {
     "emoji": "\ud83c\udf44\u200d\ud83d\udfeb",
     "unicode": "U+1F344 U+200D U+1F7EB",
-    "name": "\u229b brown mushroom"
+    "name": "brown mushroom"
   },
   {
     "emoji": "\ud83e\udeb4",

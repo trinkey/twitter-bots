@@ -1,3 +1,5 @@
+print("Initializing...")
+
 import threading
 import datetime
 import requests
@@ -15,7 +17,7 @@ from oauth_tokens import *
 abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
 
 words = open(f"{abs_path}/storage/words.txt", "r").read().split("\n")
-emojiList = json.loads(open(f"{abs_path}/storage/emoji.json", "r").read())
+emoji_list = json.loads(open(f"{abs_path}/storage/emoji.json", "r").read())
 dct = json.loads(open(f"{abs_path}/storage/dictionary.json", "r").read())
 flag_list = json.loads(open(f"{abs_path}/storage/flags.json", "r").read())
 
@@ -136,7 +138,7 @@ def th_emoji():
         if int("".join(now)) > last:
             last = int("".join(now))
 
-            postTweet("Emoji for Today: " + emojiList[index]["emoji"] + "\nEmoji name: " + emojiList[index]["name"].title().replace("\u229b ", ""), oauth, prefix, time_str="24h")
+            postTweet("Emoji for Today: " + emoji_list[index]["emoji"] + "\nEmoji name: " + emoji_list[index]["name"].title().replace("\u229b ", ""), oauth, prefix, time_str="24h")
 
             index += 1
             open(f"{abs_path}/save/info_emoji", "w").write(str(last) + "\n" + str(index))
@@ -198,16 +200,16 @@ def th_flag():
     index = int(open(f"{abs_path}/save/info_flag", "r").read())
 
     while True:
-        choices = [random.randint(1, len(flag_list)) - 1]
-        for _ in range(3):
+        choices = []
+        for _ in range(4):
             first = True
             choice = -1
             while first or choice in choices:
                 first = False
-                choice = random.randint(1, len(flag_list)) - 1
+                choice = random.randint(1, len(emoji_list)) - 1
             choices.append(choice)
 
-        x = choices[0]
+        x = random.choice(choices)
         random.shuffle(choices)
 
         if random.randint(0, 1):
@@ -219,18 +221,18 @@ def th_flag():
                     flag_list[choices[1]]["emoji"],
                     flag_list[choices[2]]["emoji"],
                     flag_list[choices[3]]["emoji"]
-                ], time_str="30m"
+                ], time_str="1h"
             )
         else:
             postTweet(
-                f"Guess the Flag #{index}! What country has the flag {flag_list[x]['emoji'].upper()}?",
+                f"Guess the Flag #{index}! What country has the flag {flag_list[x]['emoji']}?",
                 oauth, prefix,
                 poll_info=[
                     flag_list[choices[0]]["name"],
                     flag_list[choices[1]]["name"],
                     flag_list[choices[2]]["name"],
                     flag_list[choices[3]]["name"]
-                ], time_str="30m"
+                ], time_str="1h"
             )
 
         index += 1
@@ -245,7 +247,7 @@ def th_counting():
     count = int(open(f"{abs_path}/save/info_counting", "r").read())
 
     while True:
-        postTweet(str(count), oauth, prefix, time_str="1h")
+        postTweet(str(count), oauth, prefix, time_str="30m")
 
         count += 1
         f = open(f"{abs_path}/save/info_counting", "w")
@@ -253,6 +255,66 @@ def th_counting():
         f.close()
 
         time.sleep(60 * 30)
+
+def th_emojiguess():
+    prefix = "EMOJIGUESS - "
+    log("Starting thread", prefix)
+    oauth = [consumer_token_GuessThatEmoji, consumer_secret_GuessThatEmoji, access_token_emojiguess, access_secret_emojiguess]
+
+    index = int(open(f"{abs_path}/save/info_emojiguess", "r").read())
+
+    while True:
+        choices = []
+        for _ in range(4):
+            first = True
+            choice = -1
+            while first or choice in choices:
+                first = False
+                choice = random.randint(1, len(emoji_list)) - 1
+            choices.append(choice)
+
+        x = random.choice(choices)
+        random.shuffle(choices)
+
+        if random.randint(0, 1):
+            postTweet(
+                f"Guess the Emoji #{index}! What is the correct name for {emoji_list[x]['name'].upper()}?",
+                oauth, prefix,
+                poll_info=[
+                    emoji_list[choices[0]]["emoji"],
+                    emoji_list[choices[1]]["emoji"],
+                    emoji_list[choices[2]]["emoji"],
+                    emoji_list[choices[3]]["emoji"]
+                ], time_str="1h"
+            )
+        else:
+            while len(choices[0]["name"]) > 25 or len(choices[1]["name"]) > 25 or len(choices[2]["name"]) > 25 or len(choices[3]["name"]) > 25:
+                choices = []
+                for _ in range(4):
+                    first = True
+                    choice = -1
+                    while first or choice in choices:
+                        first = False
+                        choice = random.randint(1, len(emoji_list)) - 1
+                    choices.append(choice)
+
+                x = random.choice(choices)
+                random.shuffle(choices)
+
+            postTweet(
+                f"Guess the Emoji #{index}! What is {emoji_list[x]['emoji']} called?",
+                oauth, prefix,
+                poll_info=[
+                    emoji_list[choices[0]]["name"],
+                    emoji_list[choices[1]]["name"],
+                    emoji_list[choices[2]]["name"],
+                    emoji_list[choices[3]]["name"]
+                ], time_str="1h"
+            )
+
+        index += 1
+        open(f"{abs_path}/save/info_emojiguess", "w").write(str(index))
+        time.sleep(60 * 60)
 
 print("To stop, press Ctrl+C any time.")
 count = float(input("How many minutes to wait until starting bi-hourly bots?\n>>> ")) * 60
@@ -266,6 +328,7 @@ dictionary = threading.Thread(target=th_dictionary)
 triviabot  = threading.Thread(target=th_trivia)
 flagbot    = threading.Thread(target=th_flag)
 counting   = threading.Thread(target=th_counting)
+emojiguess = threading.Thread(target=th_emojiguess)
 
 time.sleep(count)
 counting.start()
@@ -275,6 +338,7 @@ triviabot.start()
 sentences.start()
 flagbot.start()
 dictionary.start()
+emojiguess.start()
 
 time.sleep(secondary)
 birthday.start()
@@ -287,3 +351,4 @@ dictionary.join()
 triviabot.join()
 flagbot.join()
 counting.join()
+emojiguess.join()
