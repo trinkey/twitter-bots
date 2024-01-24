@@ -8,6 +8,7 @@ import random
 import time
 import json
 import html
+import os
 
 from requests_oauthlib import OAuth1
 from datetime import datetime
@@ -15,6 +16,25 @@ from datetime import datetime
 from oauth_tokens import *
 
 abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
+
+if not os.path.exists(f"{abs_path}/save"):
+    os.mkdir(f"{abs_path}/save")
+elif not os.path.isdir(f"{abs_path}/save"):
+    os.remove(f"{abs_path}/save")
+    os.mkdir(f"{abs_path}/save")
+
+def ensure(path, default):
+    if not os.path.exists(f"{abs_path}/{path}"):
+        open(f"{abs_path}/{path}", "w").write(default)
+
+ensure("save/info_birthday", "0")
+ensure("save/info_emoji", "0\n0")
+ensure("save/info_dict", "0")
+ensure("save/info_flag", "1")
+ensure("save/info_counting", "1")
+ensure("save/info_emojiguess", "1")
+ensure("save/info_wiki_todo", "")
+ensure("save/info_wiki_done", "")
 
 words = open(f"{abs_path}/storage/words.txt", "r").read().split("\n")
 emoji_list = json.loads(open(f"{abs_path}/storage/emoji.json", "r").read())
@@ -74,6 +94,12 @@ def postTweet(text, oauth, prefix, poll_info=None, time_str="some amount of time
         else:
             error(f"Error posting tweet, status code {response.status_code}. Retrying in 30 seconds...", prefix)
             time.sleep(30)
+
+def open_list(path, split: str="\n", default: list[str]=[]) -> list[str]:
+    f = open(path, "r").read()
+    if f:
+        return f.split(split)
+    return default
 
 def th_birthday():
     prefix = "  BIRTHDAY - "
@@ -316,6 +342,63 @@ def th_emojiguess():
         open(f"{abs_path}/save/info_emojiguess", "w").write(str(index))
         time.sleep(60 * 60)
 
+def th_wiki():
+    prefix = " WIKIPEDIA - "
+    oauth = []
+
+    todo = open_list("todo.txt")
+    done = open_list("complete.txt")
+
+    stupid = False
+    stupid2 = False
+
+    while True:
+        try:
+            stupid = False
+            stupid2 = False
+            if len(todo):
+                stupid = True
+                response = requests.get(f"https://en.wikipedia.org{todo[0]}")
+                base_url = todo.pop(0)
+                stupid = False
+            else:
+                response = requests.get("https://en.wikipedia.org/wiki/Special:Random")
+                base_url = "/wiki/" + response.text.split('<link rel="canonical" href="', 1)[1].split("\"", 1)[0].split("/wiki/", 1)[1]
+
+            stupid2 = True
+            done.append(base_url)
+            text = response.text.split('id="firstHeading"', 1)[1].split('id="External_links"', 1)[0]
+            for i in text.split('href="/wiki/')[1::]:
+                if ":" in i and i.split(":")[0] in [
+                    "Special", "Help", "File", "Talk", "Wikipedia", "Category", "Template", "Module"
+                ]:  continue
+
+                QUOT = "\""
+                link = f"/wiki/{i.split(QUOT, 1)[0]}"
+                if link not in todo and link not in done:
+                    todo.append(link)
+
+                if len(todo) >= 25:
+                    break
+
+            postTweet(html.unescape(f"{response.text.split('<title', 1)[1].split('>', 1)[1].split(' - Wikipedia</title>', 1)[0].split('</', 1)[0]}\nhttps://en.wikipedia.org{base_url}"), oauth, prefix)
+
+            time.sleep(60 * 60)
+
+        except KeyboardInterrupt:
+            exit()
+
+        except BaseException as e:
+            if stupid2:
+                done.pop(-1)
+            if stupid:
+                todo.pop(0)
+            error(f"Err {e}, retrying...")
+
+        open(f"{abs_path}/save/info_wiki_done", "w").write("\n".join(done))
+        open(f"{abs_path}/save/info_wiki_todo", "w").write("\n".join(todo))
+
+
 print("To stop, press Ctrl+C any time.")
 count = float(input("How many minutes to wait until starting bi-hourly bots?\n>>> ")) * 60
 initial = float(input("How many minutes to wait after that to start hourly bots?\n>>> ")) * 60
@@ -329,6 +412,7 @@ triviabot  = threading.Thread(target=th_trivia)
 flagbot    = threading.Thread(target=th_flag)
 counting   = threading.Thread(target=th_counting)
 emojiguess = threading.Thread(target=th_emojiguess)
+wiki       = threading.Thread(target=th_wiki)
 
 time.sleep(count)
 counting.start()
@@ -339,6 +423,7 @@ sentences.start()
 flagbot.start()
 dictionary.start()
 emojiguess.start()
+wiki.start()
 
 time.sleep(secondary)
 birthday.start()
@@ -352,3 +437,4 @@ triviabot.join()
 flagbot.join()
 counting.join()
 emojiguess.join()
+wiki.join()
