@@ -232,7 +232,7 @@ def th_flag():
             choice = -1
             while first or choice in choices:
                 first = False
-                choice = random.randint(1, len(emoji_list)) - 1
+                choice = random.randint(1, len(flag_list)) - 1
             choices.append(choice)
 
         x = random.choice(choices)
@@ -314,7 +314,7 @@ def th_emojiguess():
                 ], time_str="1h"
             )
         else:
-            while len(choices[0]["name"]) > 25 or len(choices[1]["name"]) > 25 or len(choices[2]["name"]) > 25 or len(choices[3]["name"]) > 25:
+            while len(emoji_list[choices[0]]["name"]) > 25 or len(emoji_list[choices[1]]["name"]) > 25 or len(emoji_list[choices[2]]["name"]) > 25 or len(emoji_list[choices[3]]["name"]) > 25:
                 choices = []
                 for _ in range(4):
                     first = True
