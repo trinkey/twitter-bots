@@ -11,6 +11,7 @@ import html
 import os
 
 from requests_oauthlib import OAuth1
+from urllib.parse import unquote
 from datetime import datetime
 
 from oauth_tokens import *
@@ -52,10 +53,10 @@ def log(msg, prefix=""):
     print(f"{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {msg}")
 
 def error(err, prefix=""):
-    print(f"\x1b[38;5;9m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - \x1b[0;0m{err}")
+    print(f"\x1b[38;5;9m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {err}\x1b[0;0m")
 
 def warn(err, prefix=""):
-    print(f"\x1b[38;5;3m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - \x1b[0;0m{err}")
+    print(f"\x1b[38;5;3m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {err}\x1b[0;0m")
 
 def postTweet(text, oauth, prefix, poll_info=None, time_str="some amount of time"):
     success = False
@@ -78,19 +79,19 @@ def postTweet(text, oauth, prefix, poll_info=None, time_str="some amount of time
                     "Content-Type": "application/json"
                 }
             )
-        except:
-            error("Network error!", prefix)
-            break
+        except BaseException as e:
+            error(f"Error posting tweet! {e}", prefix)
+            return -1
 
         if response.status_code == 201:
-            success = True
             log(f"Sucessfully posted tweet! Waiting {time_str}...", prefix)
+            return 0
         elif response.status_code == 429:
             error("Rate limited! Trying again in 1h...", prefix)
             time.sleep(60 * 60)
         elif response.status_code == 403:
-            success = True
             error("Duplicate tweet! (probably)", prefix)
+            return -2
         else:
             error(f"Error posting tweet, status code {response.status_code}. Retrying in 30 seconds...", prefix)
             time.sleep(30)
@@ -196,6 +197,7 @@ def th_trivia():
     oauth = [consumer_token_trinkey_, consumer_secret_trinkey_, access_token_trivia, access_secret_trivia]
 
     while True:
+        q = ["a", "b", "c", "d"]
         valid = False
         output = ""
         count = 0
@@ -211,10 +213,13 @@ def th_trivia():
 
             q = [bytes.decode(base64.b64decode(i)) for i in x['incorrect_answers'] + [x['correct_answer']]]
             random.shuffle(q)
-            output = html.unescape(f"Category: {bytes.decode(base64.b64decode(x['category'])).title()}\nDifficulty: {bytes.decode(base64.b64decode(x['difficulty'])).title()}\n\nQuestion: {'T/F - ' if bytes.decode(base64.b64decode(x['type'])) == 'boolean' else ''}{bytes.decode(base64.b64decode(x['question']))}\n{'Choices: ' + ', '.join(q) if bytes.decode(base64.b64decode(x['type'])) == 'multiple' else ''}\n\nAnswer (b64 encoded): {x['correct_answer']}")
+            output = html.unescape(f"Category: {bytes.decode(base64.b64decode(x['category'])).title()}\nDifficulty: {bytes.decode(base64.b64decode(x['difficulty'])).title()}\n\nQuestion: {'T/F - ' if bytes.decode(base64.b64decode(x['type'])) == 'boolean' else ''}{bytes.decode(base64.b64decode(x['question']))}")
             valid = len(output) <= 280
+            for i in q:
+                if len(i) > 25:
+                    valid = False
 
-        postTweet(output, oauth, prefix, time_str="1h")
+        postTweet(output, oauth, prefix, poll_info=q, time_str="1h")
 
         time.sleep(60 * 60 - 5 * count)
 
@@ -273,12 +278,11 @@ def th_counting():
     count = int(open(f"{abs_path}/save/info_counting", "r").read())
 
     while True:
-        postTweet(str(count), oauth, prefix, time_str="30m")
-
-        count += 1
-        f = open(f"{abs_path}/save/info_counting", "w")
-        f.write(str(count))
-        f.close()
+        if postTweet(str(count), oauth, prefix, time_str="30m") == 0:
+            count += 1
+            f = open(f"{abs_path}/save/info_counting", "w")
+            f.write(str(count))
+            f.close()
 
         time.sleep(60 * 30)
 
@@ -294,7 +298,7 @@ def th_emojiguess():
         for _ in range(4):
             first = True
             choice = -1
-            while first or choice in choices:
+            while first or choice in choices or "flag: " in emoji_list[choice]["name"]:
                 first = False
                 choice = random.randint(1, len(emoji_list)) - 1
             choices.append(choice)
@@ -319,7 +323,7 @@ def th_emojiguess():
                 for _ in range(4):
                     first = True
                     choice = -1
-                    while first or choice in choices:
+                    while first or choice in choices or "flag: " in emoji_list[choice]["name"]:
                         first = False
                         choice = random.randint(1, len(emoji_list)) - 1
                     choices.append(choice)
@@ -344,29 +348,33 @@ def th_emojiguess():
 
 def th_wiki():
     prefix = " WIKIPEDIA - "
-    oauth = []
+    log("Starting thread", prefix)
+    oauth = [consumer_token_GuessThatEmoji, consumer_secret_GuessThatEmoji, access_token_wiki, access_secret_wiki]
 
-    todo = open_list("todo.txt")
-    done = open_list("complete.txt")
+    todo = open_list(f"{abs_path}/save/info_wiki_todo")
+    done = open_list(f"{abs_path}/save/info_wiki_done")
 
     stupid = False
     stupid2 = False
 
+    rand_index = 0
     while True:
         try:
             stupid = False
             stupid2 = False
             if len(todo):
                 stupid = True
-                response = requests.get(f"https://en.wikipedia.org{todo[0]}")
-                base_url = todo.pop(0)
+                rand_index = random.randint(0, len(todo) - 1)
+                response = requests.get(f"https://en.wikipedia.org{todo[rand_index]}")
+                base_url = todo.pop(rand_index)
                 stupid = False
             else:
                 response = requests.get("https://en.wikipedia.org/wiki/Special:Random")
                 base_url = "/wiki/" + response.text.split('<link rel="canonical" href="', 1)[1].split("\"", 1)[0].split("/wiki/", 1)[1]
 
+            base_url = base_url
+            done.append(base_url.lower())
             stupid2 = True
-            done.append(base_url)
             text = response.text.split('id="firstHeading"', 1)[1].split('id="External_links"', 1)[0]
             for i in text.split('href="/wiki/')[1::]:
                 if ":" in i and i.split(":")[0] in [
@@ -375,13 +383,16 @@ def th_wiki():
 
                 QUOT = "\""
                 link = f"/wiki/{i.split(QUOT, 1)[0]}"
-                if link not in todo and link not in done:
+                if link not in todo and link.lower() not in done:
                     todo.append(link)
 
-                if len(todo) >= 25:
-                    break
+                if len(todo) > 1000:
+                    todo.pop(0)
 
-            postTweet(html.unescape(f"{response.text.split('<title', 1)[1].split('>', 1)[1].split(' - Wikipedia</title>', 1)[0].split('</', 1)[0]}\nhttps://en.wikipedia.org{base_url}"), oauth, prefix)
+            postTweet(unquote(f"{response.text.split('<title', 1)[1].split('>', 1)[1].split(' - Wikipedia</title>', 1)[0].split('</', 1)[0]}\nhttps://en.wikipedia.org{base_url}"), oauth, prefix, time_str="1h")
+
+            open(f"{abs_path}/save/info_wiki_done", "w").write("\n".join(done).lower())
+            open(f"{abs_path}/save/info_wiki_todo", "w").write("\n".join(todo))
 
             time.sleep(60 * 60)
 
@@ -392,12 +403,8 @@ def th_wiki():
             if stupid2:
                 done.pop(-1)
             if stupid:
-                todo.pop(0)
+                todo.pop(rand_index)
             error(f"Err {e}, retrying...")
-
-        open(f"{abs_path}/save/info_wiki_done", "w").write("\n".join(done))
-        open(f"{abs_path}/save/info_wiki_todo", "w").write("\n".join(todo))
-
 
 print("To stop, press Ctrl+C any time.")
 count = float(input("How many minutes to wait until starting bi-hourly bots?\n>>> ")) * 60

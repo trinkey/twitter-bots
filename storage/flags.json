@@ -1303,5 +1303,15 @@
     "emoji": "\ud83c\uddfa\ud83c\uddf8",
     "unicode": "U+1F1FA U+1F1F8",
     "name": "United States"
+  },
+  {
+    "emoji": "\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f",
+    "unicode": "U+1F3F3 U+FE0F U+200D U+26A7 U+FE0F",
+    "name": "Transgender flag"
+  },
+  {
+    "emoji": "\ud83c\udff3\ufe0f\u200d\ud83c\udf08",
+    "unicode": "U+1F3F3 U+FE0F U+200D U+1F308",
+    "name": "rainbow flag"
   }
 ]
