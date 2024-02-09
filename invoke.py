@@ -36,6 +36,7 @@ ensure("save/info_counting", "1")
 ensure("save/info_emojiguess", "1")
 ensure("save/info_wiki_todo", "")
 ensure("save/info_wiki_done", "")
+ensure("save/info_lettering", "1")
 
 words = open(f"{abs_path}/storage/words.txt", "r").read().split("\n")
 emoji_list = json.loads(open(f"{abs_path}/storage/emoji.json", "r").read())
@@ -406,10 +407,34 @@ def th_wiki():
                 todo.pop(rand_index)
             error(f"Err {e}, retrying...")
 
+def th_lettering():
+    prefix = " LETTERING - "
+    log("Starting thread", prefix)
+    oauth = [consumer_token_Lettering_Bot_, consumer_secret_Lettering_Bot_, access_token_lettering, access_secret_lettering]
+
+    count = int(open(f"{abs_path}/save/info_lettering", "r").read())
+
+    while True:
+        n = count
+        result = ""
+        while n > 0:
+            n -= 1
+            remainder = n % 26
+            result = chr(ord('a') + remainder) + result
+            n //= 26
+
+        if postTweet(result, oauth, prefix, time_str="30m") == 0:
+            count += 1
+            f = open(f"{abs_path}/save/info_lettering", "w")
+            f.write(str(count))
+            f.close()
+
+        time.sleep(60 * 30)
+
 print("To stop, press Ctrl+C any time.")
-count = float(input("How many minutes to wait until starting bi-hourly bots?\n>>> ")) * 60
-initial = float(input("How many minutes to wait after that to start hourly bots?\n>>> ")) * 60
-secondary = float(input("How many minutes to wait after those to start daily bots?\n>>> ")) * 60
+bihourly = float(input("How many minutes to wait until starting bi-hourly bots?\n>>> ")) * 60
+hourly = float(input("How many minutes to wait after that to start hourly bots?\n>>> ")) * 60
+daily = float(input("How many minutes to wait after those to start daily bots?\n>>> ")) * 60
 
 birthday   = threading.Thread(target=th_birthday)
 sentences  = threading.Thread(target=th_sentences)
@@ -420,11 +445,13 @@ flagbot    = threading.Thread(target=th_flag)
 counting   = threading.Thread(target=th_counting)
 emojiguess = threading.Thread(target=th_emojiguess)
 wiki       = threading.Thread(target=th_wiki)
+lettering  = threading.Thread(target=th_lettering)
 
-time.sleep(count)
+time.sleep(bihourly)
 counting.start()
+lettering.start()
 
-time.sleep(initial)
+time.sleep(hourly)
 triviabot.start()
 sentences.start()
 flagbot.start()
@@ -432,7 +459,7 @@ dictionary.start()
 emojiguess.start()
 wiki.start()
 
-time.sleep(secondary)
+time.sleep(daily)
 birthday.start()
 emojibot.start()
 
@@ -445,3 +472,4 @@ flagbot.join()
 counting.join()
 emojiguess.join()
 wiki.join()
+lettering.join()
