@@ -1,4 +1,15 @@
-print("Initializing...")
+from datetime import datetime
+
+def log(msg, prefix=""):
+    print(f"{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {msg}")
+
+def error(err, prefix=""):
+    print(f"\x1b[38;5;9m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {err}\x1b[0;0m")
+
+def warn(err, prefix=""):
+    print(f"\x1b[38;5;3m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {err}\x1b[0;0m")
+
+log("Importing libraries...", prefix="    SYSTEM - ")
 
 import threading
 import datetime
@@ -12,9 +23,10 @@ import os
 
 from requests_oauthlib import OAuth1
 from urllib.parse import unquote
-from datetime import datetime
 
 from oauth_tokens import *
+
+log("Loading files...", prefix="    SYSTEM - ")
 
 abs_path = "/".join(__file__.replace("\\", "/").split("/")[:-1:])
 
@@ -37,8 +49,10 @@ ensure("save/info_emojiguess", "1")
 ensure("save/info_wiki_todo", "")
 ensure("save/info_wiki_done", "")
 ensure("save/info_lettering", "1")
+ensure("save/info_freaky", "0")
 
 words = open(f"{abs_path}/storage/words.txt", "r").read().split("\n")
+all_words = open(f"{abs_path}/storage/all_words.txt", "r").read().split("\n")
 emoji_list = json.loads(open(f"{abs_path}/storage/emoji.json", "r").read())
 dct = json.loads(open(f"{abs_path}/storage/dictionary.json", "r").read())
 flag_list = json.loads(open(f"{abs_path}/storage/flags.json", "r").read())
@@ -49,15 +63,6 @@ monthMap = {
     "07": "Jul.", "08": "Aug.", "09": "Sep.",
     "10": "Oct.", "11": "Nov.", "12": "Dec."
 }
-
-def log(msg, prefix=""):
-    print(f"{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {msg}")
-
-def error(err, prefix=""):
-    print(f"\x1b[38;5;9m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {err}\x1b[0;0m")
-
-def warn(err, prefix=""):
-    print(f"\x1b[38;5;3m{prefix}{datetime.now().strftime('%d/%m/%Y %H:%M:%S')} - {err}\x1b[0;0m")
 
 def postTweet(text, oauth, prefix, poll_info=None, time_str="some amount of time"):
     success = False
@@ -430,6 +435,22 @@ def th_lettering():
             f.close()
 
         time.sleep(60 * 30)
+
+def th_freaky():
+    prefix = "    FREAKY - "
+    log("Starting thread", prefix)
+    oauth = [consumer_token_BirthdayTracker, consumer_secret_BirthdayTracker, access_token_freaky, access_secret_freaky]
+
+    count = int(open(f"{abs_path}/save/info_freaky", "r").read())
+
+    while True:
+        if postTweet(f"\U0001d4ef\U0001d4fb\U0001d4ee\U0001d4ea\U0001d4f4\U0001d502 {all_words[count]} \U0001f445", oauth, prefix, time_str="1h") == 0:
+            count += 1
+            f = open(f"{abs_path}/save/info_freaky", "w")
+            f.write(str(count))
+            f.close()
+
+        time.sleep(60 * 60)
 
 print("To stop, press Ctrl+C any time.")
 bihourly = float(input("How many minutes to wait until starting bi-hourly bots?\n>>> ")) * 60
